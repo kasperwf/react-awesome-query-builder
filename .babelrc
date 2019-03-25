@@ -1,13 +1,14 @@
 {
     "presets": [
-        "react",
-        "es2015",
-	"stage-0"
+        "@babel/react",
+        "@babel/env"
     ],
     "plugins": [
-        ["transform-decorators-legacy"],
-        ["import", { libraryName: "antd", style: "css" }],
-        ["transform-es2015-modules-commonjs", {
+        ["@babel/plugin-proposal-decorators", { "legacy": true }],
+        ["@babel/plugin-proposal-export-namespace-from"],
+        ["@babel/plugin-proposal-class-properties"],
+        ["import", { "libraryName": "antd", "style": "css" }],
+        ["@babel/plugin-transform-modules-commonjs", {
             "allowTopLevelThis": true,
             "loose": true
         }]

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Query, Builder, Preview, Utils} from 'react-awesome-query-builder';
+import {Query, Builder, Preview, Utils} from '../../build/npm/lib/';
 const {queryBuilderFormat, queryString, mongodbFormat} = Utils;
 import config from './config';
 var stringify = require('json-stringify-safe');
