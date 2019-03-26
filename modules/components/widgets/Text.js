@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import { Input, Col } from 'antd';
 import shallowCompare from 'react-addons-shallow-compare';
+import { TextField } from '@apex/shared-components/text-field';
 
 export default class TextWidget extends Component {
   static propTypes = {
@@ -24,18 +24,16 @@ export default class TextWidget extends Component {
     let customProps = this.props.customProps || {};
 
     return (
-      <Col>
-        <Input
+        <TextField
           key="widget-text"
-          size={this.props.config.settings.renderSize || "small"}
           ref="text"
           type={"text"}
-          value={this.props.value || null}
-          placeholder={this.props.placeholder}
+          value={this.props.value}
+          label={this.props.placeholder}
           onChange={this.handleChange}
+          multiline={false}
           {...customProps}
         />
-      </Col>
     );
   }
 }

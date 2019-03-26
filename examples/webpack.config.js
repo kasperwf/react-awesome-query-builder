@@ -18,6 +18,7 @@ module.exports = {
         rules: [
             {
                 test: /\.js$/,
+<<<<<<< HEAD
                 exclude: /node_modules/,
                 use: [
                     {
@@ -30,6 +31,14 @@ module.exports = {
                         }
                     }
                 ]
+=======
+                loaders: ['babel-loader'],
+                exclude: /node_modules/
+            },
+            {
+                test: /\.css$/,
+                loader: "style!css"
+>>>>>>> Successfully add @ASH TextField with styles as Text widget
             },
             {
                 test: /\.scss$/,

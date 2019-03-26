@@ -11,7 +11,8 @@ import {validateTree} from "../utils/validation";
 import {queryString} from "../utils/queryString";
 import {defaultRoot} from "../utils/defaultUtils";
 import { LocaleProvider } from 'antd';
-import Immutable from 'immutable';
+// import Immutable from 'immutable';
+import { CssBaseDecorator } from '@apex/shared-components/decorators';
 
 
 class ConnectedQuery extends Component {
@@ -151,16 +152,18 @@ export default class Query extends Component {
         config = extendConfig(config);
 
         return (
-            <LocaleProvider locale={config.settings.locale.antd}>
-                <Provider store={this.state.store}>
-                    <QueryContainer
-                      store={this.state.store}
-                      get_children={get_children}
-                      config={config}
-                      onChange={onChange}
-                    />
-                </Provider>
-            </LocaleProvider>
+            <CssBaseDecorator>
+                <LocaleProvider locale={config.settings.locale.antd}>
+                    <Provider store={this.state.store}>
+                        <QueryContainer
+                        store={this.state.store}
+                        get_children={get_children}
+                        config={config}
+                        onChange={onChange}
+                        />
+                    </Provider>
+                </LocaleProvider>
+            </CssBaseDecorator>
         )
     }
 }
