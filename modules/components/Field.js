@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import shallowCompare from 'react-addons-shallow-compare';
 import {getFieldConfig, getFieldPath, getFieldPathLabels} from "../utils/configUtils";
 import {calcTextWidth, truncateString, BUILT_IN_PLACEMENTS} from "../utils/stuff";
-import { Menu, Dropdown, Icon, Tooltip, Button, Select } from 'antd';
-const { Option, OptGroup } = Select;
+import { Menu, Dropdown, Icon, Tooltip, Button } from 'antd';
+// const { Option, OptGroup } = Select;
+import { Select } from '@apex/shared-components/select';
+
 const SubMenu = Menu.SubMenu;
 const MenuItem = Menu.Item;
 const DropdownButton = Dropdown.Button;
@@ -98,32 +100,44 @@ export default class Field extends Component {
   }
 
   buildSelectItems(fields, path = null, optGroupLabel = null) {
-      let fieldSeparator = this.props.config.settings.fieldSeparator;
-      if (!fields)
-          return null;
-      let prefix = path ? path.join(fieldSeparator) + fieldSeparator : '';
+    if (!fields) {
+      return;
+    }
+    const fieldSeparator = this.props.config.settings.fieldSeparator;
+    const prefix = path ? path.join(fieldSeparator) + fieldSeparator : '';
+    
+    return keys(fields).map(fieldKey => {
+      const field = fields[fieldKey];
+      const label = this.getFieldDisplayLabel(field, fieldKey);
+      const value = prefix + fieldKey;
+      return { label, value };
+    });
+      // let fieldSeparator = this.props.config.settings.fieldSeparator;
+      // if (!fields)
+      //     return null;
+      // let prefix = path ? path.join(fieldSeparator) + fieldSeparator : '';
 
-      return keys(fields).map(fieldKey => {
-          let field = fields[fieldKey];
-          let label = this.getFieldDisplayLabel(field, fieldKey);
-          if (field.type == "!struct") {
-              let subpath = (path ? path : []).concat(fieldKey);
-              return <OptGroup
-                  key={prefix+fieldKey}
-                  label={label}
-              >
-                  {this.buildSelectItems(field.subfields, subpath, label)}
-              </OptGroup>
-          } else {
-              return <Option
-                key={prefix+fieldKey}
-                value={prefix+fieldKey}
-                groupLabel={optGroupLabel}
-              >
-                {label}
-              </Option>;
-          }
-      });
+      // return keys(fields).map(fieldKey => {
+      //     let field = fields[fieldKey];
+      //     let label = this.getFieldDisplayLabel(field, fieldKey);
+      //     if (field.type == "!struct") {
+      //         let subpath = (path ? path : []).concat(fieldKey);
+      //         return <OptGroup
+      //             key={prefix+fieldKey}
+      //             label={label}
+      //         >
+      //             {this.buildSelectItems(field.subfields, subpath, label)}
+      //         </OptGroup>
+      //     } else {
+      //         return <Option
+      //           key={prefix+fieldKey}
+      //           value={prefix+fieldKey}
+      //           groupLabel={optGroupLabel}
+      //         >
+      //           {label}
+      //         </Option>;
+      //     }
+      // });
   }
 
   buildMenuToggler(label, fullLabel, customLabel) {
@@ -174,17 +188,14 @@ export default class Field extends Component {
 
     let fieldSelect = (
         <Select
-            dropdownAlign={dropdownPlacement ? BUILT_IN_PLACEMENTS[dropdownPlacement] : undefined}
-            dropdownMatchSelectWidth={false}
-            style={{ width: isFieldSelected && !customProps.showSearch ? null : selectWidth + 36 }}
             ref="field"
-            placeholder={placeholder}
-            size={this.props.config.settings.renderSize || "small"}
+            label={placeholder}
             onChange={this.handleFieldSelect}
             value={this.props.selectedField || undefined}
-            filterOption={this.filterOption}
-            {...customProps}
-        >{fieldSelectItems}</Select>
+            // filterOption={this.filterOption}
+            options={fieldSelectItems}
+            // {...customProps}
+         />
     );
 
     return fieldSelect;
